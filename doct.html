@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Cricketer Images</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Welcome to Cricketer Image Downloader</h1>
+        <button class="btn" onclick="window.location.href='/login'">Login with Google</button>
+        <button class="btn" onclick="fetchImages()">Get Cricketer Images</button>
+
+        <div id="images" class="image-gallery"></div>
+    </div>
+
+    <script>
+        function fetchImages() {
+            fetch('/scrape-images')
+            .then(response => response.json())
+            .then(data => {
+                let gallery = document.getElementById('images');
+                gallery.innerHTML = "";
+                data.images.forEach(imgUrl => {
+                    let img = document.createElement("img");
+                    img.src = imgUrl;
+                    img.className = "image";
+                    gallery.appendChild(img);
+                });
+            });
+        }
+    </script>
+
+</body>
+</html>
